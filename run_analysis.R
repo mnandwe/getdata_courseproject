@@ -1,24 +1,26 @@
+#Create vector of filenames where test and taining data is stored
 trainingsetUrl=c("UCI HAR Dataset/train/subject_train.txt","UCI HAR Dataset/train/X_train.txt","UCI HAR Dataset/train/y_train.txt");
-
-
-trainlist<-lapply(trainingsetUrl,read.table);
-trainlistinertial<-lapply(trainingsetIUrl,read.table);
-trainDF<-data.frame(trainlist);
-
 testsetUrl=c("UCI HAR Dataset/test/subject_test.txt","UCI HAR Dataset/test/X_test.txt","UCI HAR Dataset/test/y_test.txt")
 
-
+#Use lapply and read.table to read data from files, store the data in a list and convert the list into a dataframe
+trainlist<-lapply(trainingsetUrl,read.table);
+trainDF<-data.frame(trainlist);
 testlist<-lapply(testsetUrl,read.table);
 testDF<-data.frame(testlist);
 
-
+#Merge the two dataset
 dataset<-rbind(trainDF,testDF);
 
+#Add names for the activities
 activitylabels=c("WALKING","WALKING_UPSTAIRS","WALKING_DOWNSTAIRS","SITTING","STANDING","LAYING");
+
+#Get the mean and std deviation for each measurement's indices and create a sub-dataset with the created vector of indices
 filter=c(0,1:6,41:46,81:86,121:126,161:166,201,202,214,215,227,228,240,241,253,254,266:271,345:350,424:429,503,504,516,517,529,530,542,543,562)
 filter=filter+1;
+
 subset<-dataset[,filter];
 
+#Make the activity variable a factor and match the levels to the activity names
 activityVect<-dataset[,563];
 activityVect[activityVect=="1"]="WALKING";
 activityVect[activityVect=="2"]="WALKING_UPSTAIRS";
@@ -29,6 +31,7 @@ activityVect[activityVect=="6"]="LAYING";
 factorActivity<-factor(activityVect);
 dataset[,563]<-factorActivity;
 
+#Add a name for each variable
 varnames=c("Subject",
            "TimeDomain_BodyAccelerationMean_X","TimeDomain_BodyAccelerationMean_Y","TimeDomain_BodyAccelerationMean_Z","TimeDomain_BodyAccelerationStdDev_X","TimeDomain_BodyAccelerationStdDev_Y","TimeDomain_BodyAccelerationStdDev_Z",
            "TimeDomain_GravityAccelerationMean_X","TimeDomain_GravityAccelerationMean_Y","TimeDomain_GravityAccelerationMean_Z","TimeDomain_GravityAccelerationStdDev_X","TimeDomain_GravityAccelerationStdDev_Y","TimeDomain_GravityAccelerationStdDev_Z",
