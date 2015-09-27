@@ -1,3 +1,4 @@
+library(plyr)
 #Create vector of filenames where test and taining data is stored
 trainingsetUrl=c("UCI HAR Dataset/train/subject_train.txt","UCI HAR Dataset/train/X_train.txt","UCI HAR Dataset/train/y_train.txt");
 testsetUrl=c("UCI HAR Dataset/test/subject_test.txt","UCI HAR Dataset/test/X_test.txt","UCI HAR Dataset/test/y_test.txt")
@@ -53,3 +54,18 @@ varnames=c("Subject",
            "Activity"
 );
 names(subset)<-varnames;
+
+
+finset<-aggregate(subset[, 2:67], list(subset$Subject,subset$Activity), mean)
+names(finset)[1:2]<-c("Subject","Activity")
+
+#Make the activity variable a factor and match the levels to the activity names
+activityVect<-finset[,2];
+activityVect[activityVect=="1"]="WALKING";
+activityVect[activityVect=="2"]="WALKING_UPSTAIRS";
+activityVect[activityVect=="3"]="WALKING_DOWNSTAIRS"
+activityVect[activityVect=="4"]="SITTING";
+activityVect[activityVect=="5"]="STANDING";
+activityVect[activityVect=="6"]="LAYING";
+factorActivity<-factor(activityVect);
+finset[,2]<-factorActivity;
