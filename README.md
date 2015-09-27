@@ -10,4 +10,4 @@
 8. Make the activity variable a vector where each level  is the name of the activity
 9. Create a vector of variable names
 10. Set the variable names of the new dataset
-11. 
+11. Use agregate function to create a new tidy dataset which calculates the mean of each variable for each subject and each activity
