@@ -1,5 +1,5 @@
 # getdata_courseproject
-## Codebook
+## Readme
 1. Two vectors with the filenames where the data is stored for the train and test sets
 2. Create a list of the train set using lapply to loop through the vector of filenames and read.table as the function applied to each name
 3. Convert the list into a dataframe
